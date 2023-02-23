@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace PigWebApplication;
+namespace PigWebApplication.Models;
 
 public partial class DbpigsContext : DbContext
 {

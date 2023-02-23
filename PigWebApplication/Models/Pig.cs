@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace PigWebApplication;
+namespace PigWebApplication.Models;
 
 public partial class Pig
 {
