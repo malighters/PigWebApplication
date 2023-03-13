@@ -14,7 +14,6 @@ public partial class Injection
     public int MedicineId { get; set; }
 
     public int PigId { get; set; }
-    [Required(ErrorMessage = "Поле не повинно бути порожнім")]
     [Display(Name = "Нотатки")]
     public string? Note { get; set; }
     [Display(Name = "Назва препарату")]

@@ -1,13 +1,13 @@
 ﻿@model IEnumerable<PigWebApplication.Models.FeedMixture>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Харчові суміші";
 }
 
-<h1>Index</h1>
+<h1>Харчові суміші</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Додати нову харчову суміш</a>
 </p>
 <table class="table">
     <thead>
@@ -55,9 +55,8 @@
                 @Html.DisplayFor(modelItem => item.Oilcake)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.Id">Редагувати</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Раціони харчування</a>
             </td>
         </tr>
 }

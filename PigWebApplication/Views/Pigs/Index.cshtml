@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<PigWebApplication.Models.Pig>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Свині породи";
 }
 
-<h1>Index</h1>
+<h1>Свині породи @ViewBag.BreedName</h1>
 
 <p>
     @Html.ActionLink("Додати свиню", "Create", new { breedId = @ViewBag.BreedId})
@@ -50,8 +50,8 @@
             </td>
             
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                <a asp-action="Edit" asp-route-id="@item.Id">Редагувати</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Детальна інформація</a>
             </td>
         </tr>
 }

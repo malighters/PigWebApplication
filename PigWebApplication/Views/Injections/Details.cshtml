@@ -1,13 +1,13 @@
 ﻿@model PigWebApplication.Models.Injection
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Детальна інформація про ін'єкцію";
 }
 
-<h1>Details</h1>
+<h1>Детальна інформація</h1>
 
 <div>
-    <h4>Injection</h4>
+    <h4>Ін'єкція</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
@@ -37,6 +37,6 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Редагувати</a> |
+    <a asp-action="Index">Повернутися до списку</a>
 </div>
