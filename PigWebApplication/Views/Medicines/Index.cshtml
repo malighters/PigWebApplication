@@ -38,3 +38,26 @@
 }
     </tbody>
 </table>
+<div class="container">
+    <div id="chartinjection"></div>
+</div>
+@section scripts{
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script>
+        google.charts.load('current', { 'packages': ['corechart'] });
+        google.charts.setOnLoadCallback(drawChart);
+        function drawChart() {
+            $.get('/api/Chart/JsonDataInjection', function (JsonDataInjection) {
+                data = google.visualization.arrayToDataTable(JsonDataInjection, false);
+                var option = {
+                    title: "Кількість ін'єкцій кожного препарату",
+                    width: 1000,
+                    height: 400,
+                    legend: { position: "none" },
+                };
+                chart = new google.visualization.ColumnChart(document.getElementById('chartinjection'));
+                chart.draw(data, option);
+            })
+        }
+    </script>
+}
