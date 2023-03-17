@@ -12,7 +12,7 @@ public partial class Injection
     public DateTime Date { get; set; }
 
     public int MedicineId { get; set; }
-
+    [Display(Name = "Номер свині")]
     public int PigId { get; set; }
     [Display(Name = "Нотатки")]
     public string? Note { get; set; }

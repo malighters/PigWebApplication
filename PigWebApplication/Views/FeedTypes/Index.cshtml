@@ -33,12 +33,12 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Breed.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Feedmix.Name)
-                </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Breed.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Feedmix.Name)
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.AgeStart)
             </td>
@@ -49,7 +49,7 @@
                 @Html.DisplayFor(modelItem => item.QuantityPerBig)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Редагувати</a> |
+                @Html.ActionLink("Редагувати", "Edit", new {id = @item.Id, feedmixId = @ViewBag.FeedmixId})|
                 <a asp-action="Details" asp-route-id="@item.Id">Детальна інформація</a>
             </td>
         </tr>

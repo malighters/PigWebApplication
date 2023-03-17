@@ -6,6 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include="favicon.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap_lux.css" />
     <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap_lux.min.css" />
   </ItemGroup>

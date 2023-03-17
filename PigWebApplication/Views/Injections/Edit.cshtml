@@ -18,11 +18,9 @@
                 <input asp-for="Date" class="form-control" />
                 <span asp-validation-for="Date" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="MedicineId" class="control-label"></label>
-                <select asp-for="MedicineId" class="form-control" asp-items="ViewBag.MedicineId"></select>
-                <span asp-validation-for="MedicineId" class="text-danger"></span>
-            </div>
+
+            <input type="hidden" value="@ViewBag.MedicineId" name="MedicineID"/>
+
             <div class="form-group">
                 <label asp-for="PigId" class="control-label"></label>
                 <select asp-for="PigId" class="form-control" asp-items="ViewBag.PigId"></select>

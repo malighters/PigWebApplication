@@ -7,7 +7,7 @@ namespace PigWebApplication.Models;
 public partial class FeedType
 {
     public int Id { get; set; }
-
+    [Display(Name = "Порода")]
     public int BreedId { get; set; }
 
     public int FeedmixId { get; set; }
@@ -18,7 +18,7 @@ public partial class FeedType
     [Display(Name = "День завершення годування")]
     public short AgeFinish { get; set; }
     [Required(ErrorMessage = "Поле не повинно бути порожнім")]
-    [Display(Name = "Кількість їжі на день")]
+    [Display(Name = "Кількість їжі на день, кг")]
     public float QuantityPerBig { get; set; }
     [Display(Name = "Порода")]
     public virtual Breed Breed { get; set; } = null!;

@@ -50,7 +50,7 @@
             </td>
             
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Редагувати</a> |
+                @Html.ActionLink("Редагувати", "Edit", new { id = @item.Id, breedId = @ViewBag.BreedId }) |
                 <a asp-action="Details" asp-route-id="@item.Id">Детальна інформація</a>
             </td>
         </tr>

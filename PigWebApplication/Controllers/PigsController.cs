@@ -23,7 +23,7 @@ namespace PigWebApplication.Controllers
         {
             // var dbpigsContext = _context.Pigs.Include(p => p.Breed);
             if (id == null) return RedirectToAction("Index", "Breeds");
-
+            
             ViewBag.BreedId = id;
             ViewBag.BreedName = name;
 
@@ -80,8 +80,10 @@ namespace PigWebApplication.Controllers
         }
 
         // GET: Pigs/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int? id, int breedId)
         {
+            ViewBag.Id = id;
+            ViewBag.BreedId = breedId;
             if (id == null || _context.Pigs == null)
             {
                 return NotFound();
@@ -92,7 +94,7 @@ namespace PigWebApplication.Controllers
             {
                 return NotFound();
             }
-            ViewData["BreedId"] = new SelectList(_context.Breeds, "Id", "Id", pig.BreedId);
+            //ViewData["BreedId"] = new SelectList(_context.Breeds, "Id", "Id", pig.BreedId);
             return View(pig);
         }
 
@@ -101,8 +103,9 @@ namespace PigWebApplication.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Gender,BirthDate,BreedId,Note")] Pig pig)
+        public async Task<IActionResult> Edit(int id, int breedId, [Bind("Id,Gender,BirthDate,BreedId,Note")] Pig pig)
         {
+            pig.BreedId = breedId;
             if (id != pig.Id)
             {
                 return NotFound();
@@ -128,8 +131,8 @@ namespace PigWebApplication.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["BreedId"] = new SelectList(_context.Breeds, "Id", "Id", pig.BreedId);
-            return View(pig);
+            //ViewData["BreedId"] = new SelectList(_context.Breeds, "Id", "Id", pig.BreedId);
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Pigs/Delete/5

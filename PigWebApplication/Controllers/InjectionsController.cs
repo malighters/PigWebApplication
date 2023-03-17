@@ -83,8 +83,9 @@ namespace PigWebApplication.Controllers
         }
 
         // GET: Injections/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int? id, int medicineId)
         {
+            ViewBag.MedicineId = medicineId;
             if (id == null || _context.Injections == null)
             {
                 return NotFound();
@@ -95,7 +96,7 @@ namespace PigWebApplication.Controllers
             {
                 return NotFound();
             }
-            ViewData["MedicineId"] = new SelectList(_context.Medicines, "Id", "Id", injection.MedicineId);
+            //ViewData["MedicineId"] = new SelectList(_context.Medicines, "Id", "Id", injection.MedicineId);
             ViewData["PigId"] = new SelectList(_context.Pigs, "Id", "Id", injection.PigId);
             return View(injection);
         }
@@ -105,8 +106,9 @@ namespace PigWebApplication.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Date,MedicineId,PigId,Note")] Injection injection)
+        public async Task<IActionResult> Edit(int id, int medicineId, [Bind("Id,Date,MedicineId,PigId,Note")] Injection injection)
         {
+            injection.MedicineId = medicineId;
             if (id != injection.Id)
             {
                 return NotFound();
@@ -132,7 +134,7 @@ namespace PigWebApplication.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["MedicineId"] = new SelectList(_context.Medicines, "Id", "Id", injection.MedicineId);
+            //ViewData["MedicineId"] = new SelectList(_context.Medicines, "Id", "Id", injection.MedicineId);
             ViewData["PigId"] = new SelectList(_context.Pigs, "Id", "Id", injection.PigId);
             return View(injection);
         }

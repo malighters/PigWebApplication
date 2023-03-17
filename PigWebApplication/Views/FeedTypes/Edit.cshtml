@@ -18,11 +18,9 @@
                 <select asp-for="BreedId" class="form-control" asp-items="ViewBag.BreedId"></select>
                 <span asp-validation-for="BreedId" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="FeedmixId" class="control-label"></label>
-                <select asp-for="FeedmixId" class="form-control" asp-items="ViewBag.FeedmixId"></select>
-                <span asp-validation-for="FeedmixId" class="text-danger"></span>
-            </div>
+           
+            <input type="hidden" value="@ViewBag.FeedmixId" name="FeedmixID" />
+
             <div class="form-group">
                 <label asp-for="AgeStart" class="control-label"></label>
                 <input asp-for="AgeStart" class="form-control" />

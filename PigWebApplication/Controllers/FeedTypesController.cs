@@ -53,7 +53,7 @@ namespace PigWebApplication.Controllers
         // GET: FeedTypes/Create
         public IActionResult Create(int feedmixId)
         {
-            ViewData["BreedId"] = new SelectList(_context.Breeds, "Id", "Direction");
+            ViewData["BreedId"] = new SelectList(_context.Breeds, "Id", "Name");
             //ViewData["FeedmixId"] = new SelectList(_context.FeedMixtures, "Id", "Id");
 
             ViewBag.FeedmixId = feedmixId;
@@ -76,14 +76,15 @@ namespace PigWebApplication.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index", "FeedMixtures", new { id = feedmixId, name = _context.FeedMixtures.Where(fm => fm.Id == feedmixId).FirstOrDefault().Name });
             }
-            ViewData["BreedId"] = new SelectList(_context.Breeds, "Id", "Direction", feedType.BreedId);
+            ViewData["BreedId"] = new SelectList(_context.Breeds, "Id", "Name", feedType.BreedId);
             //ViewData["FeedmixId"] = new SelectList(_context.FeedMixtures, "Id", "Id", feedType.FeedmixId);
             return RedirectToAction("Index", "FeedMixtures", new { id = feedmixId, name = _context.FeedMixtures.Where(fm => fm.Id == feedmixId).FirstOrDefault().Name });
         }
 
         // GET: FeedTypes/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int? id, int feedmixId)
         {
+            ViewBag.FeedmixId = feedmixId;
             if (id == null || _context.FeedTypes == null)
             {
                 return NotFound();
@@ -94,8 +95,8 @@ namespace PigWebApplication.Controllers
             {
                 return NotFound();
             }
-            ViewData["BreedId"] = new SelectList(_context.Breeds, "Id", "Direction", feedType.BreedId);
-            ViewData["FeedmixId"] = new SelectList(_context.FeedMixtures, "Id", "Id", feedType.FeedmixId);
+            ViewData["BreedId"] = new SelectList(_context.Breeds, "Id", "Name", feedType.BreedId);
+            //ViewData["FeedmixId"] = new SelectList(_context.FeedMixtures, "Id", "Id", feedType.FeedmixId);
             return View(feedType);
         }
 
@@ -104,8 +105,9 @@ namespace PigWebApplication.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,BreedId,FeedmixId,AgeStart,AgeFinish,QuantityPerBig")] FeedType feedType)
+        public async Task<IActionResult> Edit(int id, int feedmixId, [Bind("Id,BreedId,FeedmixId,AgeStart,AgeFinish,QuantityPerBig")] FeedType feedType)
         {
+            feedType.FeedmixId = feedmixId;
             if (id != feedType.Id)
             {
                 return NotFound();
@@ -131,8 +133,8 @@ namespace PigWebApplication.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["BreedId"] = new SelectList(_context.Breeds, "Id", "Direction", feedType.BreedId);
-            ViewData["FeedmixId"] = new SelectList(_context.FeedMixtures, "Id", "Id", feedType.FeedmixId);
+            ViewData["BreedId"] = new SelectList(_context.Breeds, "Id", "Name", feedType.BreedId);
+            //ViewData["FeedmixId"] = new SelectList(_context.FeedMixtures, "Id", "Id", feedType.FeedmixId);
             return View(feedType);
         }
 
