@@ -18,20 +18,47 @@
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                <div class="navbar-collapse collapse d-sm-flex justify-content-around">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Головна</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Breeds" asp-action="Index">Породи</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Medicines" asp-action="Index">Ліки</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="FeedMixtures" asp-action="Index">Харчові суміші</a>
-                        </li>
+                        @if (User.IsInRole("admin") || User.IsInRole("worker"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Breeds" asp-action="Index">Породи</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="FeedMixtures" asp-action="Index">Харчові суміші</a>
+                            </li>
+                        }
+                        @if (User.IsInRole("vet") || User.IsInRole("admin"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Medicines" asp-action="Index">Ліки</a>
+                            </li>
+                        }
+                        @if (User.IsInRole("admin"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Roles" asp-action="Index">Admin</a>
+                            </li>                            
+                        }
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item nav-link text-dark">@User.Identity.Name</li>
+                            <li class="nav-item">
+                                <form class="form-inline text-dark" method="post" asp-controller="Account" asp-action="Logout">
+                                    <input class="nav-link text-dark btn btn-light" type="submit" value="Вихід" />
+                                </form>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item "><a align="right" class="nav-link text-dark" asp-controller="Account" asp-action="Login">Вхід</a></li>
+                            <li class="nav-item "><a align="right" class="nav-link text-dark" asp-controller="Account" asp-action="Register">Реєстрація</a></li>
+                        }
+
                     </ul>
                 </div>
             </div>
