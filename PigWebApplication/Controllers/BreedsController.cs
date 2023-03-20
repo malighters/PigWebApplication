@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PigWebApplication.Models;
+using ClosedXML.Excel;
 
 namespace PigWebApplication.Controllers
 {
@@ -159,5 +160,106 @@ namespace PigWebApplication.Controllers
         {
           return _context.Breeds.Any(e => e.Id == id);
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Import(IFormFile fileExcel)
+        {
+            if (ModelState.IsValid)
+            {
+                if (fileExcel != null)
+                {
+                    using (var stream = new FileStream(fileExcel.FileName, FileMode.Create))
+                    {
+                        await fileExcel.CopyToAsync(stream);
+                        using (XLWorkbook workBook = new XLWorkbook(stream))
+                        {
+                            //перегляд усіх листів (в даному випадку категорій)
+                            foreach (IXLWorksheet worksheet in workBook.Worksheets)
+                            {
+                                //worksheet.Name - назва категорії. Пробуємо знайти в БД, якщо відсутня, то створюємо нову
+                                Breed newbreed;
+                                var breeds = (from breed in _context.Breeds
+                                         where breed.Name.Contains(worksheet.Name)
+                                         select breed).ToList();
+                                if (breeds.Count > 0)
+                                {
+                                    newbreed = breeds[0];
+                                }
+                                else
+                                {
+                                    newbreed = new Breed();
+                                    newbreed.Name = worksheet.Name;
+                                    newbreed.Direction = "from EXCEL";
+                                    //додати в контекст
+                                    _context.Breeds.Add(newbreed);
+                                }
+                                //перегляд усіх рядків                    
+                                foreach (IXLRow row in worksheet.RowsUsed().Skip(1))
+                                {
+                                    try
+                                    {
+                                        Pig pig = new Pig();
+                                        pig.Gender = (short)row.Cell(1).Value;
+                                        pig.BirthDate = row.Cell(2).Value;
+                                        pig.Note = row.Cell(3).Value.ToString();
+                                        pig.Breed = newbreed;
+                                        _context.Pigs.Add(pig);
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        Console.WriteLine(ex.ToString());
+
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                await _context.SaveChangesAsync();
+            }
+            return RedirectToAction(nameof(Index));
+        }
+
+
+        public ActionResult Export()
+        {
+            using (XLWorkbook workbook = new XLWorkbook())
+            {
+                var breeds = _context.Breeds.Include("Pigs").ToList();
+
+                foreach (var b in breeds)
+                {
+                    var worksheet = workbook.Worksheets.Add(b.Name);
+                    worksheet.Cell("A1").Value = "Number";
+                    worksheet.Cell("B1").Value = "Gender";
+                    worksheet.Cell("C1").Value = "Birthdate";
+                    worksheet.Cell("D1").Value = "Note";
+                    worksheet.Row(1).Style.Font.Bold = true;
+                    var pigs = b.Pigs.ToList();
+
+                    for (int i = 0; i < pigs.Count; i++)
+                    {
+                        worksheet.Cell(i + 2, 1).Value = pigs[i].Id;
+                        worksheet.Cell(i + 2, 2).Value = pigs[i].Gender;
+                        worksheet.Cell(i + 2, 3).Value = pigs[i].BirthDate;
+                        worksheet.Cell(i + 2, 4).Value = pigs[i].Note;
+                    }
+                }
+                using (var stream = new MemoryStream())
+                {
+                    workbook.SaveAs(stream);
+                    stream.Flush();
+                    return new FileContentResult(stream.ToArray(),
+                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+                    {
+                        FileDownloadName = $"pigs_{DateTime.UtcNow.ToShortDateString()}.xlsx"
+                    };
+
+                }
+            }
+        }
+
     }
 }

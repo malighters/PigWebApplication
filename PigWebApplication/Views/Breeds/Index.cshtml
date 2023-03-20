@@ -9,6 +9,28 @@
 <p>
     <a asp-action="Create">Додати нову породу</a>
 </p>
+
+<div>
+    <h3>Оберіть excel-файл для заватаження</h3>
+    @using(Html.BeginForm("Import", "Breeds", FormMethod.Post, new { enctype ="multipart/form-data", id ="frm-excel" }))
+    {
+        <div>
+            Завантажте Excel-файл:
+            <input type="file" name="fileExcel" id="fileExcel" class="form-control btn btn-light"/>
+            <div>
+                <input type="submit" value="Завантажити" class="btn btn-light" />
+            </div>
+        </div>}
+</div>
+<br/>
+
+<div>
+    <h3>Завантаження інформації в файл</h3>
+    <a asp-action="Export" class="btn btn-light">Завантажити</a>
+</div>
+<br/>
+
+
 <table class="table">
     <thead>
         <tr>
